@@ -1,20 +1,20 @@
-CREATE FUNCTION fn_cortaString( @TEXT varchar(8000), @COLUMN tinyint, @SEPARATOR char(1)) RETURNS varchar(8000)  AS
+CREATE FUNCTION fn_cortaString( @TEXTO varchar(8000), @COLUNA tinyint, @SEPARADOR char(1)) RETURNS varchar(8000)  AS
 
--- RECORTA SUBSTRING QUE ESTIVER ENTRE O DELIMITADOR INFORMADO DA OCORRÊNCIA INFORMADA ATÉ A OCORRÊNCIA ANTERIOR (OCOR-1)
--- SINTAXE: fn_cortaString([nome_da_coluna],[num_da_ocorrência],[delimitador])
+-- RECORTA SUBSTRING QUE ESTIVER ENTRE O DELIMITADOR INFORMADO DA OCORRÃŠNCIA INFORMADA ATÃ‰ A OCORRÃŠNCIA ANTERIOR (OCOR-1)
+-- SINTAXE: fn_cortaString([nome_da_coluna],[num_da_ocorrÃªncia],[delimitador])
 BEGIN
-       DECLARE @POS_START  int = 1  
-       DECLARE @POS_END    int = CHARINDEX(@SEPARATOR, @TEXT, @POS_START)  
+       DECLARE @POS_INICIAL  int = 1  
+       DECLARE @POS_FINAL    int = CHARINDEX(@SEPARADOR, @TEXTO, @POS_INICIAL)  
   
-       WHILE (@COLUMN >1 AND @POS_END> 0)  
+       WHILE (@COLUNA>1 AND @POS_FINAL> 0)  
          BEGIN  
-             SET @POS_START = @POS_END + 1  
-             SET @POS_END = CHARINDEX(@SEPARATOR, @TEXT, @POS_START)  
-             SET @COLUMN = @COLUMN - 1  
+             SET @POS_INICIAL = @POS_FINAL + 1  
+             SET @POS_FINAL = CHARINDEX(@SEPARADOR, @TEXTO, @POS_INICIAL)  
+             SET @COLUNA = @COLUNA - 1  
          END   
   
-       IF @COLUMN > 1  SET @POS_START = LEN(@TEXT) + 1  
-       IF @POS_END = 0 SET @POS_END = LEN(@TEXT) + 1   
+       IF @COLUNA > 1  SET @POS_INICIAL = LEN(@TEXTO) + 1  
+       IF @POS_FINAL = 0 SET @POS_FINAL = LEN(@TEXTO) + 1   
   
-       RETURN SUBSTRING (@TEXT, @POS_START, @POS_END - @POS_START)  
+       RETURN SUBSTRING (@TEXTO, @POS_INICIAL, @POS_FINAL - @POS_INICIAL)  
 END  
