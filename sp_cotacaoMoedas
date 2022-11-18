@@ -5,7 +5,7 @@
 --	TAMBÉM É NECESSÁRIO QUE AS PROCEDURES DO OLE AUTOMATION SEJAM HABILITADAS;
 --> SITE PARA VALIDAR JSON HTTP://JSONVIEWER.STACK.HU/
 
-============================= EXECUTAR UMA VEZ ANTES DE ============================
+========================= HABLITAR ANTES DE EXECUTAR ===============================
 GO
 SP_CONFIGURE 'SHOW ADVANCED OPTIONS', 1;
 GO
@@ -18,10 +18,8 @@ GO
 ====================================================================================
 
 */
-ALTER PROCEDURE [dbo].[sp_cotacaoEuro] as 
-GO
-SET NOCOUNT ON
-GO
+ALTER PROCEDURE [dbo].[sp_cotacaoMoedas] as 
+
 
 DECLARE 
 	@INTTOKEN INT,
@@ -59,7 +57,7 @@ DECLARE
 		BEGIN
 			SET @VCHJSON_VALUE = (SELECT [VALUE] FROM OPENJSON(@VCHJSON))
 
-			IF NOT EXISTS (SELECT TOP 1 * FROM SYS.TABLES WHERE NAME = 'TBCOTACAO_EURO')
+			IF NOT EXISTS (SELECT TOP 1 * FROM SYS.TABLES WHERE NAME = 'TBCOTACAO_MOEDAS')
 				BEGIN
 					CREATE TABLE TBCOTACAO_EURO(DATA_INCLUSAO_REGISTRO	SMALLDATETIME,
 												DATA_COTACAO			SMALLDATETIME,
@@ -70,8 +68,8 @@ DECLARE
 			BEGIN	
 				SET DATEFORMAT ymd;
 				
-				INSERT INTO TBCOTACAO_EURO VALUES (CONVERT(SMALLDATETIME,GETDATE()),
-												   (SELECT TOP 1 [value] FROM OPENJSON(@vchJSON_value) WHERE [key] = 'create_date'),
+				INSERT INTO TBCOTACAO_MOEDAS VALUES (CONVERT(SMALLDATETIME,GETDATE()),
+												   (SELECT TOP 1 convert(smalldatetime,[value]) FROM OPENJSON(@vchJSON_value) WHERE [key] = 'create_date'),
 												   (SELECT TOP 1 [value] FROM OPENJSON(@vchJSON_value) WHERE [key] = 'name'),
 												   (SELECT TOP 1 [value] FROM OPENJSON(@vchJSON_value) WHERE [key] = 'ask'))
 			
@@ -83,6 +81,7 @@ DECLARE
 		END
 
 	EXEC SP_OADESTROY @INTTOKEN;
+
 
 GO
 
