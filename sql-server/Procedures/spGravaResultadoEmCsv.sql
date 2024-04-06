@@ -1,21 +1,21 @@
 /*
-1∫- Antes de executar os comandos, verificar se as permissıes do xp_cmdshell est„o habilitadas e se a seguranÁa do diretÛrio do actyon est· permitido para "TODOS"
+1¬∫- Antes de executar os comandos, verificar se as permiss√µes do xp_cmdshell est√£o habilitadas e se a seguran√ßa do diret√≥rio est√° permitido para "TODOS"
 	EXEC sp_configure 'show advanced options', 1;
 	RECONFIGURE;
 	EXEC sp_configure 'xp_cmdshell', 1;
 	RECONFIGURE;
-2∫ - Segue o significado de cada par‚metro do comando de criaÁ„o do arquivo CSV.
-	Par‚metro	<-> Significado
+2¬∫ - Segue o significado de cada par√¢metro do comando de cria√ß√£o do arquivo CSV.
+	Par√¢metro	<-> Significado
 	---------------------------------
 	-S			<-> nome do Servidor
 	-d			<-> Nome do banco
-	-E			<-> Definir como conex„o confi·vel
-	-Q			<-> Consulta em comando de linha com saÌda
-	-o			<-> arquivo de saÌda
-	-W			<-> Remove espaÁos do final
+	-E			<-> Definir como conex√£o confi√°vel
+	-Q			<-> Consulta em comando de linha com sa√≠da
+	-o			<-> arquivo de sa√≠da
+	-W			<-> Remove espa√ßos do final
 	-s			<-> Delimitador
 	-h			<-> Header
-3∫ - Esta procedure deve receber trÍs par‚metros do sistema: diretorio, nome do arquivo e a consulta a ser utilizada.
+3¬∫ - Esta procedure deve receber tr√™s par√¢metros do sistema: diretorio, nome do arquivo e a consulta a ser utilizada.
 Segue um exemplo de BLOCO DE TESTE. 
 	DECLARE	@DIR		varchar(50)		= 'C:\Actyon\ARQUIVOS',
 			@NOME_ARQ	VARCHAR(50)		= 'arquivo_teste',
@@ -26,19 +26,19 @@ Segue um exemplo de BLOCO DE TESTE.
 
 ALTER PROCEDURE spGravaResultadoEmCsv @DIR VARCHAR(200), @NOME_ARQ VARCHAR(50), @QUERY NVARCHAR(MAX) AS
 SET NOCOUNT ON;
--- CAPTURO A DATA DA CRIA«√O DO ARQUIVO
+-- CAPTURO A DATA DA CRIA√á√ÉO DO ARQUIVO
 DECLARE @DATA VARCHAR(13) = FORMAT(GETDATE(), 'yyyyMMdd_HHmm'),
 		@SAIDA BIT = 0,
 		@RESULTADO VARCHAR(30)
 
--- AJUSTO OS PAR¬METROS PARA SEGUIR UM PADR√O
+-- AJUSTO OS PAR√ÇMETROS PARA SEGUIR UM PADR√ÉO
 SET @DIR = UPPER(@DIR)
 SET @NOME_ARQ = UPPER(@NOME_ARQ)
 SET @QUERY = CONCAT('SET NOCOUNT ON; ',@QUERY)
 
 IF (@DIR IS NOT NULL AND @DIR <> '')
 	BEGIN
-		-- VERIFICO VIA CMDSHELL SE O DIRET”RIO J¡ EXISTE OU N√O
+		-- VERIFICO VIA CMDSHELL SE O DIRET√ìRIO J√Å EXISTE OU N√ÉO
 		DECLARE @QUERY_CMD VARCHAR(8000) = 'IF EXIST "' + @DIR + '" ( ECHO 1 ) ELSE ( ECHO 0 )'
 
 		DECLARE @RETORNO TABLE (
@@ -50,7 +50,7 @@ IF (@DIR IS NOT NULL AND @DIR <> '')
 		EXEC MASTER.DBO.XP_CMDSHELL @COMMAND_STRING = @QUERY_CMD
 
 		SELECT @SAIDA = RESULTADO FROM @RETORNO WHERE LINHA = 1
-		-- CASO A SAÕDA SEJA "0" SIGNIFICA QUE O DIRET”RIO N√O EXISTE E DEVE SER CRIADO
+		-- CASO A SA√çDA SEJA "0" SIGNIFICA QUE O DIRET√ìRIO N√ÉO EXISTE E DEVE SER CRIADO
 		IF @SAIDA = 0
 			BEGIN
 				DECLARE @QUERY_CMD2 VARCHAR(8000) = 'mkdir "' + @DIR + '"'
@@ -63,7 +63,7 @@ IF (@DIR IS NOT NULL AND @DIR <> '')
 			END
 	END
 
--- SE O RETORNO DA CRIA«√O DO DIRET”RIO N√O ACUSAR FALHAS, FICAR¡ NULO, POR ISSO VERIFICO SE A VARI¡VEL … NULA PARA CONTINUAR
+-- SE O RETORNO DA CRIA√á√ÉO DO DIRET√ìRIO N√ÉO ACUSAR FALHAS, FICAR√Å NULO, POR ISSO VERIFICO SE A VARI√ÅVEL √â NULA PARA CONTINUAR
 IF (@RESULTADO IS NULL)
 	BEGIN
 		SET @DIR = CONCAT(@DIR,'\',@NOME_ARQ,'_',@DATA,'.csv')
