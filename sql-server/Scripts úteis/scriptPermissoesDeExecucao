@@ -1,5 +1,3 @@
--- Permissões de escrita para gravar arquivo de log
-
 EXEC SP_CONFIGURE 'show advanced options', 1;
 GO
 RECONFIGURE;
@@ -16,3 +14,4 @@ RECONFIGURE
 go
 EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
 RECONFIGURE;
+
