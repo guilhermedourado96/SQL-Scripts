@@ -1,7 +1,5 @@
-CREATE FUNCTION fn_cortaString( @TEXTO varchar(8000), @COLUNA tinyint, @SEPARADOR char(1)) RETURNS varchar(8000)  AS
-
+CREATE FUNCTION fnCortaString( @TEXTO varchar(8000), @COLUNA tinyint, @SEPARADOR char(1)) RETURNS varchar(8000)  AS
 -- RECORTA SUBSTRING QUE ESTIVER ENTRE O DELIMITADOR INFORMADO DA OCORRÊNCIA INFORMADA ATÉ A OCORRÊNCIA ANTERIOR (OCOR-1)
--- SINTAXE: fn_cortaString([nome_da_coluna],[num_da_ocorrência],[delimitador])
 BEGIN
        DECLARE @POS_INICIAL  int = 1  
        DECLARE @POS_FINAL    int = CHARINDEX(@SEPARADOR, @TEXTO, @POS_INICIAL)  
