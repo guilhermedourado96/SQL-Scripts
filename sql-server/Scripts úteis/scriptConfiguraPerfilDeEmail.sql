@@ -21,17 +21,17 @@ IF ((SELECT COUNT(*) FROM msdb.dbo.sysmail_account WHERE name = @Account_Name) >
  
 EXEC msdb.dbo.sysmail_add_account_sp
     @account_name = @Account_Name,
-    @description = 'DescriÁ„o da conta',							-- INSERIR DESCRI«√O DA CONTA DBMAIL, 
-    @email_address = '',											-- INSERIR ENDERE«O DE EMAIL A SER UTILIZADO
-    @replyto_address = '',											-- INSERIR EMAIL DE REPLICA«√O
-    @display_name = 'ImportaÁıes Actyon',							-- INSERIR NOME EXIBIDO PARA A CONTA DE EMAIL
+    @description = 'Descri√ß√£o da conta',							-- INSERIR DESCRI√á√ÉO DA CONTA DBMAIL, 
+    @email_address = '',											-- INSERIR ENDERE√áO DE EMAIL A SER UTILIZADO
+    @replyto_address = '',											-- INSERIR EMAIL DE REPLICA√á√ÉO
+    @display_name = 'Importa√ß√µes Actyon',							-- INSERIR NOME EXIBIDO PARA A CONTA DE EMAIL
     @mailserver_name = 'smtp.seu_email.com.br',						-- INSERIR SERVIDOR DE MAIL A SER UTILIZADO PELA CONTA DE EMAIL
     @mailserver_type = 'SMTP',										-- INSERIR PROTOCOLO DE ENVIO DE EMAIL
     @port = '587',													-- INSERIR A PORTA UTILIZADA PELO PROTOCOLO SMTP 
-    @username = '',													-- INSERIR ENDERE«O DE EMAIL A SER UTILIZADO
-    @password = '',													-- INSERIR SENHA DO ENDERE«O DE EMAIL A SER UTILIZADO
+    @username = '',													-- INSERIR ENDERE√áO DE EMAIL A SER UTILIZADO
+    @password = '',													-- INSERIR SENHA DO ENDERE√áO DE EMAIL A SER UTILIZADO
     @enable_ssl = 0,												-- DESABILITA O USO DO SSL
-    @use_default_credentials = 0									-- DESABILITA USO DAS CREDENCIAIS PADR√O
+    @use_default_credentials = 0									-- DESABILITA USO DAS CREDENCIAIS PADR√ÉO
  
  
  
@@ -46,7 +46,7 @@ IF ((SELECT COUNT(*) FROM msdb.dbo.sysmail_profile WHERE name = @Profile_Name) >
  
 EXEC msdb.dbo.sysmail_add_profile_sp
     @profile_name = @Profile_Name,
-    @description = 'DescriÁ„o do perfil de email' ;
+    @description = 'Descri√ß√£o do perfil de email' ;
  
  
 -----------------------------------------------------------------------------------------
@@ -65,17 +65,17 @@ EXEC msdb.dbo.sysmail_add_profileaccount_sp
     @account_name = @Account_Name,
     @sequence_number = 1;
 -----------------------------------------------------------------------------------------
--- LIBERA ACESSO NO PERFIL CRIADO PARA TODOS OS USU¡RIOS
+-- LIBERA ACESSO NO PERFIL CRIADO PARA TODOS OS USU√ÅRIOS
 -----------------------------------------------------------------------------------------
 IF ((SELECT COUNT(*) FROM msdb.dbo.sysmail_principalprofile WHERE profile_id = @profile_id) > 0)
     EXEC msdb.dbo.sysmail_delete_principalprofile_sp @profile_name = @Profile_Name
  
 EXEC msdb.dbo.sysmail_add_principalprofile_sp
     @profile_name = @Profile_Name,
-    @principal_name = 'public', -- AQUI VOC  PODE DAR ACESSO SOMENTE PARA UM USU¡RIO ESPECÕFICO, SE PREFERIR
+    @principal_name = 'public', -- AQUI VOC√ä PODE DAR ACESSO SOMENTE PARA UM USU√ÅRIO ESPEC√çFICO, SE PREFERIR
     @is_default = 0;
  
 -----------------------------------------------------------------------------------------
--- DEFINE O TAMANHO M¡XIMO POR ANEXO 
+-- DEFINE O TAMANHO M√ÅXIMO POR ANEXO 
 -----------------------------------------------------------------------------------------
 EXEC msdb.dbo.sysmail_configure_sp 'MaxFileSize', '200000000';
