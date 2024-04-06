@@ -1,9 +1,7 @@
-
-
-select top 5 
-	devedor_id, nome, cpf , 
-	isnull((SELECT  tdf.fone + ', ' AS [text()]
-			FROM tbdevedor_fone tdf
-			WHERE tdf.Devedor_ID = D.devedor_ID
-			FOR XML PATH ('')),'-') AS fones
-from tbdevedor d
+-- ESTE SCRIPT REALIZA A CONCATENAÇÃO DA LISTAGEM DE RESULTADOS DE UMA CONSULTA E RETORNA EM UMA ÚNICA STRING SEPARADOS POR UM DELIMITADOR
+DECLARE @DELIMITADOR CHAR(1) = ';'
+SELECT TOP 1 
+ID, 
+NOME, 
+(SELECT  FONE + ';' AS [text()] FROM FONES WHERE Devedor_ID = D.devedor_ID FOR XML PATH ('')) AS FONES
+FROM CADASTRO
