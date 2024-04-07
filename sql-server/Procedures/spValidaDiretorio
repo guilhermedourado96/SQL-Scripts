@@ -1,0 +1,15 @@
+ALTER PROCEDURE spValidaDiretorio (@DIRETORIO VARCHAR(255),@SAIDA BIT OUTPUT) AS 
+BEGIN
+    DECLARE @CONSULTA VARCHAR(8000) = 'IF EXIST "' + @DIRETORIO + '" ( echo 1 ) ELSE ( echo 0 )'
+
+    DECLARE @Retorno TABLE (
+        Linha INT IDENTITY(1, 1),
+        Resultado VARCHAR(MAX)
+    )
+    INSERT INTO @Retorno
+    EXEC  master.dbo.xp_cmdshell 
+          @command_string = @CONSULTA
+
+    SELECT @SAIDA = Resultado FROM @RETORNO WHERE Linha = 1
+END
+
