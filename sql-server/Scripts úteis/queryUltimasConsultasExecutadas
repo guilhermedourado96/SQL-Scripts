@@ -1,0 +1,11 @@
+DECLARE @DATA_INIC DATETIME  =  '2023-01-19 10:00', 
+        @DATA_FINA DATETIME  =  '2023-01-19 11:00'
+SELECT 
+E.last_execution_time          AS [Date Time], 
+execsql.text                           AS [Script] 
+
+FROM sys.dm_exec_query_stats E
+CROSS APPLY sys.dm_exec_sql_text(E.sql_handle) AS execsql
+where cast(E.last_execution_time as date) between @DATA_INIC and @DATA_FINA
+
+ORDER BY E.last_execution_time DESC
