@@ -1,0 +1,17 @@
+CREATE FUNCTION fnSubstituiAcentos (@texto NVARCHAR(MAX))
+RETURNS NVARCHAR(MAX)
+AS
+BEGIN
+    DECLARE @STRING NVARCHAR(MAX);
+
+    SET @STRING = @texto;
+
+    SET @STRING = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(@STRING, 'á', 'a'), 'à', 'a'), 'â', 'a'), 'ã', 'a'), 'ä', 'a');
+	SET @STRING = REPLACE(REPLACE(REPLACE(REPLACE(@STRING, 'é', 'e'), 'è', 'e'), 'ê', 'e'), 'ë', 'e');
+	SET @STRING = REPLACE(REPLACE(REPLACE(REPLACE(@STRING, 'í', 'i'), 'ì', 'i'), 'î', 'i'), 'ï', 'i');
+	SET @STRING = REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(@STRING, 'ó', 'o'), 'ò', 'o'), 'ô', 'o'), 'õ', 'o'), 'ö', 'o');
+	SET @STRING = REPLACE(REPLACE(REPLACE(REPLACE(@STRING, 'ú', 'u'), 'ù', 'u'), 'û', 'u'), 'ü', 'u')
+	SET @STRING = REPLACE(REPLACE(@STRING,'ý','y'), 'ç', 'c')
+     
+    RETURN @STRING;
+END;
