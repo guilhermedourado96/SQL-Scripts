@@ -1,4 +1,4 @@
 # sql-scripts
-Este repositório armazena scripts de consulta úteis para análise no gerenciador de banco de dados.
+Este repositório armazena scripts úteis para tratamento de dados e procedimentos no sqlserver.
 
 https://github.com/guidouradim/sql-scripts.git
