@@ -1,0 +1,51 @@
+CREATE PROCEDURE spEnviaEmail @TIPO VARCHAR(10), @DESTINO VARCHAR(90) AS
+DECLARE	@PERFIL			VARCHAR(50)	   = 'Perfil A'
+		    ,@BODY			VARCHAR(8000)  = ''
+		    ,@TIPO_ENVIO	VARCHAR(10)  = 'HTML'
+		    ,@TITULO		VARCHAR(100)   = 'Envio de email pelo SQLServer'
+		    ,@BLIND_COPY	VARCHAR(200) = ''
+
+IF @TIPO = 'TESTE'
+	BEGIN
+		SET @BODY = '<style type="text/css">#estilo{ background-color:#EFEFEF; border-color:#FFF; font-family: ''ARIAL''}</style>  
+		<body>  
+		 <table width="600" align="center" border="0">  
+		  <tr>  
+			<td>  
+			<table width="600" border="1" cellpadding="5" id="estilo" cellspacing="0" align="center">  
+			<tr> <td colspan="3" align="center">TESTE IF</td> </tr>  
+			<tr> <td colspan="3" align="center">TESTE IF</td> </tr>   
+		    </table>  
+			</td>  
+		    </tr>  
+		 </table>  
+		</body>'  
+	END
+ELSE 
+	BEGIN
+		SET @BODY = '<style type="text/css">#estilo{ background-color:#EFEFEF; border-color:#FFF; font-family: ''ARIAL''}</style>  
+		<body>  
+		 <table width="600" align="center" border="0">  
+		  <tr>  
+			<td>  
+			<table width="600" border="1" cellpadding="5" id="estilo" cellspacing="0" align="center">  
+			<tr> <td colspan="3" align="center">TESTE ELSE</td> </tr>  
+			<tr> <td colspan="3" align="center">TESTE ELSE </td> </tr>   
+		    </table>  
+			</td>  
+		    </tr>  
+		 </table>  
+		</body>' 
+	END
+
+IF (@DESTINO <> '')
+BEGIN
+   EXEC MSDB.DBO.SP_SEND_DBMAIL
+       @PROFILE_NAME = @PERFIL
+      ,@BODY_FORMAT = @TIPO_ENVIO
+	    ,@BLIND_COPY_RECIPIENTS = @BLIND_COPY
+      ,@RECIPIENTS = @DEST
+      ,@SUBJECT = @TITULO
+      ,@BODY = @BODY
+      ,@IMPORTANCE ='HIGH'
+END
