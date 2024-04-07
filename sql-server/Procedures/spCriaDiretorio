@@ -1,0 +1,13 @@
+ALTER PROCEDURE spCriaDiretorio (@DIRETORIO VARCHAR(255)) AS 
+BEGIN
+    SET NOCOUNT ON
+
+    DECLARE @CONSULTA VARCHAR(8000) = 'mkdir "' + @DIRETORIO + '"'
+
+    DECLARE @RETORNO TABLE ( Resultado VARCHAR(MAX) )
+
+    INSERT INTO @RETORNO
+    EXEC master.dbo.xp_cmdshell 
+        @command_string = @CONSULTA
+    
+END
